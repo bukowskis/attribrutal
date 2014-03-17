@@ -14,6 +14,10 @@ describe "Attributable#attributes" do
 
   it "should support mass assignment" do
     bar.raw_attributes.values.should == [nil, 10, { alpha: 10, beta: "20" }]
+    bar.attributes[:foo].should == false
+    bar.attributes[:bar].should == "10"
+    bar.attributes[:baz].alpha.should == 10
+    bar.attributes[:baz].beta.should == 20
   end
 
   it "should perform coercion" do

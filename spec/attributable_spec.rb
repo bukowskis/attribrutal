@@ -41,10 +41,15 @@ describe "Attributable#attributes" do
   end
 
   it "is fast enough" do
-    speed = 1000 * Benchmark.realtime do
+    initialization_time = 1000 * Benchmark.realtime do
       10_000.times { Bar.new }
     end
-    speed.should <= 5
+    initialization_time.should < 5
+
+    coercion_time = 1000 * Benchmark.realtime do
+      10_000.times { Bar.new foo: nil, bar: 10, baz: { alpha: "1", beta: "2" } }
+    end
+    coercion_time.should < 50
   end
 
 end

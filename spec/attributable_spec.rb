@@ -40,4 +40,11 @@ describe "Attributable#attributes" do
     bar_with_defaults.baz.beta.should == 100
   end
 
+  it "is fast enough" do
+    speed = 1000 * Benchmark.realtime do
+      10_000.times { Bar.new }
+    end
+    speed.should <= 5
+  end
+
 end

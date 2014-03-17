@@ -3,6 +3,7 @@ require "spec_helper"
 describe "Attributable#attributes" do
 
   let (:bar) { Bar.new foo: nil, bar: 10, baz: { alpha: 10, beta: "20" } }
+  let (:bar_with_defaults) { Bar.new }
 
   it "records defined attributes" do
     Bar.attributes.keys.should == [:foo, :bar, :baz]
@@ -30,6 +31,13 @@ describe "Attributable#attributes" do
     attributes = bar.attributes
     attributes[:baz].alpha.should == 10
     attributes[:baz].beta.should == 20
+  end
+
+  it "supports defaults" do
+    bar_with_defaults.bar.should == "bar"
+    bar_with_defaults.baz.class.should == Baz
+    bar_with_defaults.baz.alpha.should == 50
+    bar_with_defaults.baz.beta.should == 100
   end
 
 end

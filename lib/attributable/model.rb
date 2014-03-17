@@ -10,9 +10,16 @@ module Attributable
       @attributes = attrs
     end
 
-    def attributes(raw = nil)
+    def raw_attributes
       self.class.instance_variable_get("@attributes").keys.inject(Hash.new) do |attributes, attribute|
-        attributes[attribute] = raw ? @attributes[attribute] : self.send(attribute)
+        attributes[attribute] = @attributes[attribute]
+        attributes
+      end
+    end
+
+    def attributes
+      self.class.instance_variable_get("@attributes").keys.inject(Hash.new) do |attributes, attribute|
+        attributes[attribute] = self.send(attribute)
         attributes
       end
     end

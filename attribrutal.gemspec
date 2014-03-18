@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'attribrutal/version'
 
 Gem::Specification.new do |spec|
-  spec.name        = 'Attribrutal'
+  spec.name        = 'attribrutal'
   spec.version     = Attribrutal::VERSION
   spec.date        = '2014-03-17'
   spec.summary     = "Lazy attribute coercion"

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    attributable (0.0.1)
+    Attribrutal (0.0.1)
 
 GEM
   remote: https://rubygems.org/
@@ -21,7 +21,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  attributable!
+  Attribrutal!
   bundler
   rake
   rspec

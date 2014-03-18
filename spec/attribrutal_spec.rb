@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "Attributable#attributes" do
+describe "Attribrutal#attributes" do
 
   let (:bar) { Bar.new foo: nil, bar: 10, baz: { alpha: 10, beta: "20" } }
   let (:bar_with_defaults) { Bar.new }

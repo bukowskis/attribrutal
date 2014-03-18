@@ -1,4 +1,4 @@
-Attributable
+Attribrutal
 ============
 
 Lazily coerced attributes
@@ -6,7 +6,7 @@ Lazily coerced attributes
 ##Usage:
 
     class MoreSpeed
-      include Attributable::Model
+      include Attribrutal::Model
       attribute :harder
       attribute :better
       attribute :faster
@@ -16,7 +16,7 @@ Lazily coerced attributes
 ##With coercion:
 
     class MoreSpeed
-      include Attributable::Model
+      include Attribrutal::Model
       attribute :harder, Coercion::Integer
       attribute :better, Coercion::String
       attribute :faster, Coercion::Boolean
@@ -26,7 +26,7 @@ Lazily coerced attributes
 ##With defaults:
 
     class MoreSpeed
-      include Attributable::Model
+      include Attribrutal::Model
       attribute :harder, Coercion::Integer, default: 10
       attribute :better, Coercion::String, default: "better"
       attribute :faster, Coercion::Boolean, default: true

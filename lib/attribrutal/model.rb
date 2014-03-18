@@ -1,4 +1,4 @@
-module Attributable
+module Attribrutal
 
   module Model
 

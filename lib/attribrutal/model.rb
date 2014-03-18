@@ -7,21 +7,29 @@ module Attribrutal
     end
 
     def initialize( attrs = {} )
-      @attributes = attrs.symbolize_keys
+      all_attributes = attrs.symbolize_keys
+      attribrutal_attributes = all_attributes.select {|k,v| attribute_keys.include? k }
+      other_attributes = all_attributes.reject {|k,v| attribute_keys.include? k }
+      @attributes = attribrutal_attributes
+      other_attributes.map {|key, val| self.send("#{key}=", val) if respond_to?("#{key}=") }
     end
 
     def raw_attributes
-      self.class.instance_variable_get("@attributes").keys.inject(Hash.new) do |attributes, attribute|
+      attribute_keys.inject(Hash.new) do |attributes, attribute|
         attributes[attribute] = @attributes[attribute]
         attributes
       end
     end
 
     def attributes
-      self.class.instance_variable_get("@attributes").keys.inject(Hash.new) do |attributes, attribute|
+      attribute_keys.inject(Hash.new) do |attributes, attribute|
         attributes[attribute] = self.send(attribute)
         attributes
       end
+    end
+
+    def attribute_keys
+      self.class.attribute_keys
     end
 
     module ClassMethods
@@ -49,6 +57,10 @@ module Attribrutal
 
       def attributes
         @attributes
+      end
+
+      def attribute_keys
+        @attributes.keys
       end
 
     end

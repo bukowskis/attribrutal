@@ -7,7 +7,7 @@ module Attribrutal
     end
 
     def initialize( attrs = {} )
-      @attributes = attrs
+      @attributes = attrs.symbolize_keys
     end
 
     def raw_attributes

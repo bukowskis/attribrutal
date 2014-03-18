@@ -29,7 +29,7 @@ module Attribrutal
       def attribute (sym, coercer=nil, attrs = {})
 
         define_method(sym) do
-          if coercer
+          if coercer && coercer.respond_to?(:coerce)
             coercer.send(:coerce, @attributes[sym], attrs[:default])
           else
             @attributes[sym] || default

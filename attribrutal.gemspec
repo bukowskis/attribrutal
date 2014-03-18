@@ -11,9 +11,13 @@ Gem::Specification.new do |spec|
   spec.description = ""
   spec.authors     = ["Bukowskis"]
   spec.email       = ''
-  spec.require_paths = ["lib"]
   spec.homepage    = ''
   spec.license     = 'MIT'
+
+  spec.files         = `git ls-files`.split($/) - ['.travis.yml']
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ["lib"]
+
   spec.add_development_dependency('bundler')
   spec.add_development_dependency('rake')
   spec.add_development_dependency('rspec')

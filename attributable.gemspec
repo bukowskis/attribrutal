@@ -1,9 +1,11 @@
+# coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'attributable/version'
 
 Gem::Specification.new do |spec|
   spec.name        = 'attributable'
-  spec.version     = '0.0.1'
+  spec.version     = Attributable::VERSION
   spec.date        = '2014-03-17'
   spec.summary     = "Lazy attribute coercion"
   spec.description = ""

@@ -2,8 +2,10 @@ require "spec_helper"
 
 describe "Attribrutal#attributes" do
 
-  let (:bar) { Bar.new foo: nil, bar: 10, baz: { alpha: 10, beta: "20" } }
-  let (:bar_with_defaults) { Bar.new }
+  let (:bar)                            { Bar.new foo: nil, bar: 10, baz: { alpha: 10, beta: "20" } }
+  let (:bar_with_defaults)              { Bar.new }
+  let (:typed_collections)               { TypedCollections.new integers: ["1","2","3"], strings: [true, 10, 1.0] }
+  let (:typed_collections_with_defaults) { TypedCollections.new }
 
   it "records defined attributes" do
     Bar.attributes.keys.should == [:foo, :bar, :baz]
@@ -31,6 +33,13 @@ describe "Attribrutal#attributes" do
     attributes = bar.attributes
     attributes[:baz].alpha.should == 10
     attributes[:baz].beta.should == 20
+  end
+
+  it "supports array of type coercion" do
+    typed_collections.integers.should == [1, 2 ,3]
+    typed_collections.strings.should == ["true", "10", "1.0"]
+    typed_collections_with_defaults.integers.should == [42, 42, 42]
+    typed_collections_with_defaults.strings.should == ['larry', 'curly', 'moe']
   end
 
   it "supports defaults" do

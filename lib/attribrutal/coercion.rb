@@ -32,14 +32,18 @@ module Attribrutal
     end
 
     class Array
-      def self.coerce(arg, default = nil)
+
+      def initialize(subtype)
+        @subtype = subtype
+      end
+
+      def coerce(arg, default = nil)
         return default unless arg
         arg.collect {|member| @subtype.coerce(member) }
       end
 
       def self.[] (subtype)
-        @subtype = subtype
-        self
+        new(subtype)
       end
     end
 

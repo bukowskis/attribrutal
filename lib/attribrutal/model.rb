@@ -33,10 +33,18 @@ module Attribrutal
       def attribute (sym, coercer=nil, attrs = {})
 
         define_method(sym) do
+          default_value = case attrs[:default].class.name
+                          when "NilClass", "TrueClass", "FalseClass", "Numeric", "Fixnum", "Symbol"
+                            attrs[:default]
+                          when "Proc"
+                            attrs[:default].call
+                          else
+                            attrs[:default].clone
+                          end
           if coercer && coercer.respond_to?(:coerce)
-            coercer.send(:coerce, raw_attributes[sym], attrs[:default])
+            coercer.send(:coerce, raw_attributes[sym], default_value)
           else
-            raw_attributes[sym] ||= attrs[:default]
+            raw_attributes[sym] ||= default_value
           end
         end
 

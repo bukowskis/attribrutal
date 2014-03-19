@@ -31,5 +31,17 @@ module Attribrutal
       end
     end
 
+    class Array
+      def self.coerce(arg, default = nil)
+        return default unless arg
+        arg.collect {|member| @subtype.coerce(member) }
+      end
+
+      def self.[] (subtype)
+        @subtype = subtype
+        self
+      end
+    end
+
   end
 end

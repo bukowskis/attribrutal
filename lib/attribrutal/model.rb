@@ -36,7 +36,7 @@ module Attribrutal
           if coercer && coercer.respond_to?(:coerce)
             coercer.send(:coerce, raw_attributes[sym], attrs[:default])
           else
-            raw_attributes[sym] || attrs[:default]
+            raw_attributes[sym] ||= attrs[:default]
           end
         end
 

@@ -47,7 +47,7 @@ describe "Attribrutal#attributes" do
     initialization_time.should < 5
 
     coercion_time = 1000 * Benchmark.realtime do
-      10_000.times { Bar.new foo: nil, bar: 10, baz: { alpha: "1", beta: "2" } }
+      10_000.times { Bar.new(foo: nil, bar: 10, baz: { alpha: "1", beta: "2" }).attributes }
     end
     coercion_time.should < 50
   end

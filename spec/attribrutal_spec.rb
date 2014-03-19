@@ -10,7 +10,7 @@ describe "Attribrutal#attributes" do
   end
 
   it "records defined attribute types" do
-    Bar.attributes.values.should == [Coercer::Boolean, Coercer::String, Coercer::Baz]
+    Bar.attributes.values.should == [Attribrutal::Type::Boolean, Attribrutal::Type::String, Coercer::Baz]
   end
 
   it "supports mass assignment" do

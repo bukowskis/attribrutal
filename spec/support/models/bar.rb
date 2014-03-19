@@ -1,6 +1,6 @@
 class Bar
   include Attribrutal::Model
-  attribute :foo, Coercer::Boolean
-  attribute :bar, Coercer::String, default: "bar"
+  attribute :foo, Attribrutal::Type::Boolean
+  attribute :bar, Attribrutal::Type::String, default: "bar"
   attribute :baz, Coercer::Baz, default: lambda { ::Baz.new alpha: 50, beta: 100 }
 end

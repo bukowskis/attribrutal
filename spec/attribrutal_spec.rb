@@ -49,6 +49,10 @@ describe "Attribrutal#attributes" do
     bar_with_defaults.baz.beta.should == 100
   end
 
+  it "defines symbol? if boolean" do
+    bar.foo?.should == false
+  end
+
   it "is fast enough" do
     initialization_time = 1000 * Benchmark.realtime do
       1000.times { Bar.new }

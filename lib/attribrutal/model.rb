@@ -32,7 +32,13 @@ module Attribrutal
 
       def attribute (sym, coercer=nil, attrs = {})
 
-        define_method(sym) do
+        if coercer == Attribrutal::Type::Boolean
+          superclass.send :define_method, "#{sym}?" do
+            send(sym)
+          end
+        end
+
+        superclass.send :define_method, sym do
           default_value = case attrs[:default].class.name
                           when "NilClass", "TrueClass", "FalseClass", "Numeric", "Fixnum", "Symbol"
                             attrs[:default]
@@ -48,7 +54,7 @@ module Attribrutal
           end
         end
 
-        define_method("#{sym}=".to_sym) do |value|
+        superclass.send :define_method, "#{sym}=".to_sym do |value|
           raw_attributes[sym] = value
         end
 

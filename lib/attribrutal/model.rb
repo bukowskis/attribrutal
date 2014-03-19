@@ -7,18 +7,14 @@ module Attribrutal
     end
 
     def initialize( attrs = {} )
-      all_attributes = attrs.symbolize_keys
-      attribrutal_attributes = all_attributes.select {|k,v| attribute_keys.include? k }
-      other_attributes = all_attributes.reject {|k,v| attribute_keys.include? k }
-      @attributes = attribrutal_attributes
+      all_attributes         = attrs.symbolize_keys
+      @raw_attributes        = all_attributes.select {|k,v| attribute_keys.include? k }
+      other_attributes       = all_attributes.reject {|k,v| attribute_keys.include? k }
       other_attributes.map {|key, val| self.send("#{key}=", val) if respond_to?("#{key}=") }
     end
 
     def raw_attributes
-      attribute_keys.inject(Hash.new) do |attributes, attribute|
-        attributes[attribute] = @attributes[attribute]
-        attributes
-      end
+      @raw_attributes
     end
 
     def attributes
@@ -38,14 +34,14 @@ module Attribrutal
 
         define_method(sym) do
           if coercer && coercer.respond_to?(:coerce)
-            coercer.send(:coerce, @attributes[sym], attrs[:default])
+            coercer.send(:coerce, raw_attributes[sym], attrs[:default])
           else
-            @attributes[sym] || default
+            raw_attributes[sym] || attrs[:default]
           end
         end
 
         define_method("#{sym}=".to_sym) do |value|
-          @attributes[sym] = value
+          raw_attributes[sym] = value
         end
 
         if @attributes

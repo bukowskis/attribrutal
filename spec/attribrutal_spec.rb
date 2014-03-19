@@ -6,6 +6,7 @@ describe "Attribrutal#attributes" do
   let (:bar_with_defaults)              { Bar.new }
   let (:typed_collections)               { TypedCollections.new integers: ["1","2","3"], strings: [true, 10, 1.0] }
   let (:typed_collections_with_defaults) { TypedCollections.new }
+  let (:uncoercable) { Uncoercable.new not: "let through", coercable: "no touch" }
 
   it "records defined attributes" do
     Bar.attributes.keys.should == [:foo, :bar, :baz]
@@ -51,6 +52,11 @@ describe "Attribrutal#attributes" do
 
   it "defines symbol? if boolean" do
     bar.foo?.should == false
+  end
+
+  it "passes types through without coercion if type doesn't respond to coerce" do
+    uncoercable.not.should == "let through"
+    uncoercable.coercable.should == "no touch"
   end
 
   it "is fast enough" do

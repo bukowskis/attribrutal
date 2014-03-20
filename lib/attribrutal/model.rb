@@ -14,7 +14,7 @@ module Attribrutal
     end
 
     def raw_attributes
-      @raw_attributes
+      @raw_attributes || {}
     end
 
     def attributes
@@ -25,7 +25,7 @@ module Attribrutal
     end
 
     def attribute_keys
-      self.class.attribute_keys
+      self.class.attribute_keys || {}
     end
 
     module ClassMethods
@@ -66,11 +66,19 @@ module Attribrutal
       end
 
       def attributes
-        @attributes
+        if superclass.respond_to? :attributes
+          superclass.attributes.merge(@attributes)
+        else
+          @attributes
+        end
       end
 
       def attribute_keys
-        @attributes.keys
+        if superclass.respond_to? :attribute_keys
+          superclass.attribute_keys + @attributes.keys
+        else
+          @attributes.keys
+        end
       end
 
     end

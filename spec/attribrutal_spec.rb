@@ -7,12 +7,14 @@ describe "Attribrutal#attributes" do
   let (:typed_collections)               { TypedCollections.new integers: ["1","2","3"], strings: [true, 10, 1.0] }
   let (:typed_collections_with_defaults) { TypedCollections.new }
   let (:uncoercable) { Uncoercable.new not: "let through", coercable: "no touch" }
+  let (:barn) { Barn.new }
 
   it "records defined attributes" do
     Bar.attributes.keys.should == [:foo, :bar, :baz]
   end
 
   it "records defined attribute types" do
+    Bar.attribute_keys.should == [ :foo, :bar, :baz ]
     Bar.attributes.values.should == [Attribrutal::Type::Boolean, Attribrutal::Type::String, Coercer::Baz]
   end
 
@@ -57,6 +59,11 @@ describe "Attribrutal#attributes" do
   it "passes types through without coercion if type doesn't respond to coerce" do
     uncoercable.not.should == "let through"
     uncoercable.coercable.should == "no touch"
+  end
+
+  it "supports inheritance" do
+    Barn.attribute_keys.should == [ :foo, :bar, :baz, :diaper_cost ]
+    Barn.attributes.values.should == [ Attribrutal::Type::Boolean, Attribrutal::Type::String, Coercer::Baz, Attribrutal::Type::Integer ]
   end
 
   it "is fast enough" do

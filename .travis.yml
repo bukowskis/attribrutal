@@ -1,0 +1,14 @@
+language: ruby
+rvm:
+- 1.9.3
+- 2.1.1
+services:
+- redis-server
+script: bundle exec rspec
+notifications:
+  hipchat:
+    rooms:
+      secure: dIXzjdauJh4+bsy7YFJFCFwfa7mdIcN5y5IzF3bMv3z+NPgt1J2ArcaPS2JthUgaAXkalvN1WQCBq9YCUcn0GSzhKXSagoxO3DavyI5FpXkPQEZ6YG6K8sDoqFgoScfTzFwm/4BYo2XCvdjviC1jGq29t9Fz4LNXVSO2cvenRV8=
+    template:
+    - ! '%{author}''s %{repository}/%{branch} - <a href="%{build_url}">%{message}</a>'
+    format: html

@@ -16,7 +16,7 @@ describe "Attribrutal#attributes" do
 
   it "records defined attribute types" do
     Bar.attribute_keys.should == [ :foo, :bar, :baz ]
-    Bar.attributes.values.should == [Attribrutal::Type::Boolean, Attribrutal::Type::String, Coercer::Baz]
+    Bar.attributes.values.map(&:first).should == [Attribrutal::Type::Boolean, Attribrutal::Type::String, Coercer::Baz]
     Bar.coercer_for(:foo).should == Attribrutal::Type::Boolean
     Bar.coercer_for(:bar).should == Attribrutal::Type::String
   end
@@ -66,7 +66,7 @@ describe "Attribrutal#attributes" do
 
   it "supports inheritance" do
     Barn.attribute_keys.should == [ :foo, :bar, :baz, :diaper_cost ]
-    Barn.attributes.values.should == [ Attribrutal::Type::Boolean, Attribrutal::Type::String, Coercer::Baz, Attribrutal::Type::Integer ]
+    Barn.attributes.values.map(&:first).should == [ Attribrutal::Type::Boolean, Attribrutal::Type::String, Coercer::Baz, Attribrutal::Type::Integer ]
   end
 
   it "is fast enough" do

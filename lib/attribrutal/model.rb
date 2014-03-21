@@ -24,6 +24,24 @@ module Attribrutal
       end
     end
 
+    def read_attribute(name)
+       given_default = self.class.default_value_for(name)
+       default_value = case given_default.class.name
+                       when "NilClass", "TrueClass", "FalseClass", "Numeric", "Fixnum", "Symbol"
+                         given_default
+                       when "Proc"
+                         given_default.call
+                       else
+                         given_default.clone
+                       end
+      coercer = self.class.coercer_for(name)
+      if coercer && coercer.respond_to?(:coerce)
+        coercer.coerce raw_attributes[name], default_value
+      else
+        raw_attributes[name] ||= default_value
+      end
+    end
+
     def attribute_keys
       self.class.attribute_keys || {}
     end
@@ -32,36 +50,25 @@ module Attribrutal
 
       def attribute (sym, coercer=nil, attrs = {})
 
+
         if coercer == Attribrutal::Type::Boolean
-          superclass.send :define_method, "#{sym}?" do
+          define_method "#{sym}?" do
             send(sym)
           end
         end
 
-        superclass.send :define_method, sym do
-          default_value = case attrs[:default].class.name
-                          when "NilClass", "TrueClass", "FalseClass", "Numeric", "Fixnum", "Symbol"
-                            attrs[:default]
-                          when "Proc"
-                            attrs[:default].call
-                          else
-                            attrs[:default].clone
-                          end
-          if coercer && coercer.respond_to?(:coerce)
-            coercer.send(:coerce, raw_attributes[sym], default_value)
-          else
-            raw_attributes[sym] ||= default_value
-          end
+        define_method sym do
+          read_attribute(sym)
         end
 
-        superclass.send :define_method, "#{sym}=".to_sym do |value|
+        define_method "#{sym}=".to_sym do |value|
           raw_attributes[sym] = value
         end
 
         if @attributes
-          @attributes.merge!({ sym => coercer })
+          @attributes.merge!({ sym => [coercer, attrs] })
         else
-          @attributes = { sym => coercer }
+          @attributes = { sym => [coercer, attrs] }
         end
       end
 
@@ -71,6 +78,14 @@ module Attribrutal
         else
           @attributes
         end
+      end
+
+      def coercer_for(name)
+        @attributes[name].first
+      end
+
+      def default_value_for(name)
+        @attributes[name].last[:default]
       end
 
       def attribute_keys

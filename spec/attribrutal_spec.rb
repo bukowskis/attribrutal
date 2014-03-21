@@ -13,9 +13,12 @@ describe "Attribrutal#attributes" do
     Bar.attributes.keys.should == [:foo, :bar, :baz]
   end
 
+
   it "records defined attribute types" do
     Bar.attribute_keys.should == [ :foo, :bar, :baz ]
     Bar.attributes.values.should == [Attribrutal::Type::Boolean, Attribrutal::Type::String, Coercer::Baz]
+    Bar.coercer_for(:foo).should == Attribrutal::Type::Boolean
+    Bar.coercer_for(:bar).should == Attribrutal::Type::String
   end
 
   it "supports mass assignment" do
@@ -33,9 +36,9 @@ describe "Attribrutal#attributes" do
   end
 
   it "supports recursive coercion" do
-    attributes = bar.attributes
-    attributes[:baz].alpha.should == 10
-    attributes[:baz].beta.should == 20
+     attributes = bar.attributes
+     attributes[:baz].alpha.should == 10
+     attributes[:baz].beta.should == 20
   end
 
   it "supports array of type coercion" do
@@ -77,5 +80,4 @@ describe "Attribrutal#attributes" do
     end
     coercion_time.should < 25
   end
-
 end
